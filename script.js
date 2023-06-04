@@ -21,43 +21,27 @@ const check = () => {
         document.querySelector('.guess').disabled = true;
         document.querySelector('.check').disabled = true;
 
-        // invalid number
-    } else if (guess < 1 || guess > 20) {
-
-        document.querySelector('.message').textContent = "❌ Invalid Number! Enter A Number Between 1 - 20";
-        // number is higher
-    } else if (guess > secret) {
+        // player lose
+    } else if (guess !== secret && guess > 0 && guess < 21) {
+        document.querySelector('.message').textContent = guess > secret ? "‼️ Too High!" : "‼️ Too Low";
         score -= 5;
+        document.querySelector('.score').textContent = score;
         if (score === 0) {
             document.querySelector('.score').textContent = score;
-            document.querySelector('.message').textContent = "🚫 Game Over! Try Again?";
+            document.querySelector('.message').textContent = "🚫 You Lost!\nTry Again.";
             document.querySelector('body').style.backgroundColor = '#931c00';
             document.querySelector('.number').textContent = '😢';
             document.querySelector('.guess').disabled = true;
             document.querySelector('.check').disabled = true;
-        } else {
-            document.querySelector('.message').textContent = "‼️ The Number Is Higher Than The Target!";
-            document.querySelector('.score').textContent = score;
+            document.querySelector('.continue').disabled = true;
 
-        }
-        // number is lower
-    } else if (guess < secret) {
-        score -= 5;
-        if (score === 0) {
-            document.querySelector('.score').textContent = score;
-            document.querySelector('.message').textContent = "🚫 Game Over! Try Again?";
-            document.querySelector('body').style.backgroundColor = '#931c00';
-            document.querySelector('.number').textContent = '😢';
-            document.querySelector('.guess').disabled = true;
-            document.querySelector('.check').disabled = true;
-        } else {
-            document.querySelector('.message').textContent = "‼️ Number Is Lower Than The Target!";
-            document.querySelector('.score').textContent = score;
-        }
+        } // invalid number
+    } else {
+        document.querySelector('.message').textContent = "❌ Invalid Number!";
     }
 };
 
-
+// continue function
 const continuebtn = () => {
     if (highscore < score) {
         highscore = score;
@@ -70,6 +54,7 @@ const continuebtn = () => {
     document.querySelector('.guess').value = 0;
     document.querySelector('body').style.backgroundColor = '#222';
     document.querySelector('.number').style.width = '15rem';
+    document.querySelector('.message').textContent = "Start guessing...";
 };
 
 
@@ -94,9 +79,10 @@ const again = () => {
     document.querySelector('.number').style.width = '15rem';
     document.querySelector('.guess').disabled = false;
     document.querySelector('.check').disabled = false;
+    document.querySelector('.continue').disabled = false;
     document.querySelector('.guess').value = 0;
     document.querySelector('.score').textContent = 20;
 }
 
-// again events
+// again event
 document.querySelector('.again').addEventListener('click', again);
